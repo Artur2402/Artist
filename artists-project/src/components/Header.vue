@@ -5,37 +5,29 @@
 		</a>
 		<nav class="header__menu">
 			<ul class="header__menu-list">
-				<li class="header__menu-item">
-					<a href="#">Home</a>
-					<ul class="header__menu-dropdown">
-						<li><a href="#">Item 1</a></li>
-						<li><a href="#">Item 2</a></li>
-						<li><a href="#">Item 3</a></li>
-						<li><a href="#">Item 4</a></li>
-						<li><a href="#">Item 5</a></li>
+				<li
+					class="header__menu-item"
+					v-for="(item, index) in menuItems"
+					:key="index"
+				>
+					<a
+						href="#"
+						:class="{ active: activeLink === item.name }"
+						@click="setActiveLink(item.name)"
+						>{{ item.name }}</a
+					>
+					<ul class="header__menu-dropdown" v-if="item.submenu">
+						<li v-for="(subItem, subIndex) in item.submenu" :key="subIndex">
+							<a
+								href="#"
+								:class="{ active: activeLink === subItem }"
+								@click="setActiveLink(subItem)"
+								>{{ subItem }}</a
+							>
+						</li>
 					</ul>
 				</li>
-				<li class="header__menu-item">
-					<a href="#">Discography</a>
-				</li>
-				<li class="header__menu-item">
-					<a href="#">Events</a>
-				</li>
-				<li class="header__menu-item">
-					<a href="#">Gallery</a>
-				</li>
-				<li class="header__menu-item">
-					<a href="#">Videos</a>
-				</li>
-				<li class="header__menu-item">
-					<a href="#">Shop</a>
-				</li>
-				<li class="header__menu-item">
-					<a href="#">News</a>
-				</li>
-				<li class="header__menu-item">
-					<a href="#">Contact</a>
-				</li>
+
 			</ul>
 		</nav>
 		<button type="button" class="header__menu-shop">
@@ -44,7 +36,29 @@
 	</header>
 </template>
 
-<script></script>
+<script setup>
+import { ref } from 'vue';
+
+// Данные для меню
+const menuItems = [
+	{ name: 'Home', submenu: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'] },
+	{ name: 'Discography', submenu: ['Albums', 'Single Album'] },
+	{ name: 'Events', submenu: ['All Events', 'Single Event'] },
+	{ name: 'Gallery' },
+	{ name: 'Videos', submenu: ['Video Gallery', 'Single Video'] },
+	{ name: 'Shop', submenu: ['All Products', 'Single Product'] },
+	{ name: 'News', submenu: ['All News', 'Single News'] },
+	{ name: 'Contact' }
+];
+
+// Хук для отслеживания активной ссылки
+const activeLink = ref(null);
+
+// Функция для установки активной ссылки
+function setActiveLink(link) {
+	activeLink.value = link;
+}
+</script>
 
 <style>
 .header {
@@ -59,33 +73,64 @@
 	gap: 35px;
 	margin-right: 20px;
 	list-style: none;
-	padding-left: 0px;
+	padding-left: 0;
+}
+
+.header__menu-item {
+	position: relative; /* Чтобы меню выпадало относительно каждого элемента */
 }
 
 .header__menu-dropdown {
 	list-style: none;
-	margin-top: 12px;
 	margin-left: -20px;
-	/* display: none; */
-	background-color: #000;
+	display: none; /* Изначально скрываем список */
 	position: absolute;
+	top: 100%;
+	left: 0;
+	background-color: #000;
 	min-width: 150px;
-	padding: 10px 20px;
-	text-align: center;
+	padding: 10px 0;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	z-index: 1000; /* Поверх других элементов */
 }
 
-li:hover .header__menu-dropdown {
+/* Показ выпадающего списка при наведении */
+.header__menu-item:hover .header__menu-dropdown,
+.header__menu-dropdown:hover {
 	display: block;
 }
 
 .header__menu-dropdown li {
-	padding: 7px;
+	padding: 7px 20px;
 	width: 100%;
 }
 
+.header__menu-dropdown li a {
+	color: #616161;
+	display: block;
+	transition: background-color 0.3s ease; /* Плавный переход */
+}
+
+.header__menu-dropdown li a:hover {
+	color: #fff; /* Цвет текста при наведении */
+}
+
+.header__menu-dropdown li a.active {
+	color: #fff; /* Цвет текста при наведении */
+}
+
+/* Основные стили для ссылок */
 a {
 	color: #fff;
 	text-decoration: none;
+}
+
+/* Кнопка магазина */
+.header__menu-shop {
+	cursor: pointer;
+	outline: none;
+	background: none;
+	border: none;
 }
 
 button {
