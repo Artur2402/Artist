@@ -103,7 +103,7 @@ video {
 
 .video-slider-controls {
 	position: absolute;
-	top: 50%;
+	top: 45%;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
@@ -141,5 +141,11 @@ video {
 
 .video-slider-control:hover {
 	opacity: 1; /* Увеличиваем непрозрачность при наведении */
+}
+
+@media (max-width: 550px) {
+	.video-slider-controls {
+		top: 35%;
+	}
 }
 </style>

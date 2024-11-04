@@ -2,19 +2,12 @@
 	<div class="categories">
 		<h2 class="categories__title">Categories</h2>
 		<div class="categories__container">
-			<!-- Цикл по строкам, каждая строка содержит максимум 4 категории -->
 			<div
-				class="categories__container-row"
-				v-for="(row, rowIndex) in categoryRows"
-				:key="rowIndex"
+				v-for="(category, index) in categories"
+				:key="index"
+				class="categories__container-elem"
 			>
-				<div
-					class="categories__container-elem"
-					v-for="category in row"
-					:key="category.name"
-				>
-					<a href="#" class="categories__container-link">{{ category.name }}</a>
-				</div>
+				<a href="#" class="categories__container-link">{{ category.name }}</a>
 			</div>
 		</div>
 	</div>
@@ -37,16 +30,6 @@ export default {
 			],
 		}
 	},
-	computed: {
-		// Делим категории на строки по 4 элемента
-		categoryRows() {
-			const rows = []
-			for (let i = 0; i < this.categories.length; i += 4) {
-				rows.push(this.categories.slice(i, i + 4))
-			}
-			return rows
-		},
-	},
 }
 </script>
 
@@ -62,26 +45,26 @@ export default {
 	color: white;
 	font-size: 50px;
 	font-weight: 600;
+	text-align: center;
 }
 
 .categories__container {
-	margin: 60px 0;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr); /* Четыре элемента в строку */
+	gap: 20px;
 	width: 100%;
 	max-width: 1200px;
-}
-
-/* Стили для строки с категориями */
-.categories__container-row {
-	display: flex;
-	justify-content: space-around;
-	margin-bottom: 80px;
-}
-
-/* Стили для элемента категории */
-.categories__container-link {
-	position: relative;
-	width: 200px;
+	padding: 20px;
 	margin: 20px;
+}
+
+.categories__container-elem {
+	width: 100%;
+}
+
+.categories__container-link {
+	display: block;
+	width: 100%;
 	padding: 20px;
 	background: rgba(255, 255, 255, 0.6);
 	box-shadow: 0 5px 15px rgba(105, 105, 105, 0.7);
@@ -95,5 +78,29 @@ export default {
 	box-shadow: 0 25px 125px rgba(255, 255, 255, 0.7);
 	transform: scale(1.1);
 	transition-delay: 0.2s;
+}
+
+/* Адаптивность для среднего экрана: 3 категории в строку */
+@media (max-width: 992px) {
+	.categories__container {
+		grid-template-columns: repeat(3, 1fr); /* Три элемента в строку */
+	}
+}
+
+/* Адаптивность для небольших экранов: 2 категории в строку */
+@media (max-width: 768px) {
+	.categories__container {
+		grid-template-columns: repeat(2, 1fr); /* Два элемента в строку */
+	}
+}
+
+/* Адаптивность для маленьких экранов: 1 категория в строку */
+@media (max-width: 480px) {
+	.categories__container {
+		grid-template-columns: 1fr; /* Один элемент в строку */
+	}
+	.categories__title {
+		font-size: 32px; /* Уменьшаем размер заголовка для мобильных устройств */
+	}
 }
 </style>
