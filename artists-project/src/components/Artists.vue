@@ -74,7 +74,8 @@ export default {
 }
 
 .artists__title {
-	font-size: 45px;
+	font-size: 50px;
+	font-weight: 600;
 	margin-bottom: 1.5rem;
 	color: #fff;
 	text-align: center;

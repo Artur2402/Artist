@@ -1,5 +1,8 @@
 <template>
-	<header class="header">
+	<header
+		:class="{ 'header--scrolled': isScrolled, header: true }"
+		v-show="showHeader"
+	>
 		<a href="" class="header__logo">
 			<img src="../assets/images/logo.png" alt="logo" />
 		</a>
@@ -88,7 +91,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 // Данные для меню
 const menuItems = [
@@ -107,6 +110,36 @@ const activeLink = ref(null)
 const activeSubMenuIndex = ref(null)
 const isMobileMenuOpen = ref(false)
 const isMobileView = ref(window.innerWidth <= 1200)
+
+const isScrolled = ref(false)
+const showHeader = ref(true)
+let lastScrollY = 0
+
+const handleScroll = () => {
+	const currentScrollY = window.scrollY
+
+	// Если прокручиваем вверх
+	if (currentScrollY < lastScrollY) {
+		showHeader.value = true
+		isScrolled.value = currentScrollY > 200 // Фон добавляется при прокрутке вверх, если мы не в самом верху
+	} else {
+		showHeader.value = false // Скрываем header при прокрутке вниз
+		isScrolled.value = false // Убираем фон, если скроллим вниз
+	}
+
+	lastScrollY = currentScrollY
+}
+
+onMounted(() => {
+	window.addEventListener('scroll', handleScroll)
+	window.addEventListener('resize', () => {
+		isMobileView.value = window.innerWidth <= 1200
+	})
+})
+
+onBeforeUnmount(() => {
+	window.removeEventListener('scroll', handleScroll)
+})
 
 function setActiveLink(link, event) {
 	activeLink.value = link
@@ -130,11 +163,21 @@ function toggleSubMenu(index) {
 </script>
 
 <style>
+.header--scrolled {
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
 .header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	padding: 30px 60px 0;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 10;
+	transition: background-color 0.3s ease, visibility 0.3s;
 }
 
 .header__menu-list {
