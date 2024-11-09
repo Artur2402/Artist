@@ -4,6 +4,7 @@
 	<h4 class="artist__main-title">Video</h4>
 	<Slider />
 	<h4 class="artist__main-title">Gallery</h4>
+	<Gallery />
 	<Footer />
 </template>
 
@@ -12,6 +13,7 @@ import OneArtist from '@/components/OneArtist.vue'
 import Slider from '@/components/Slider.vue'
 import Footer from '@/components/Footer.vue'
 import Header from '@/components/Header.vue';
+import Gallery from '@/components/Gallery.vue';
 
 </script>
 

@@ -1,8 +1,13 @@
 <template>
 	<div class="artist">
 		<div class="artist__header">
-			<span style="opacity: 0.6;">live band</span>
-			<h1 class="artist__header-title">Омар хаям</h1>
+			<div class="artist__header-content">
+				<span style="opacity: 0.6;">live band</span>
+				<h1 class="artist__header-title">Омар хаям</h1>
+				<MusicPlayer class="audio-player" />
+			</div>
+			<div class="audio-player-wrapper">
+			</div>
 		</div>
 		<div class="artist__main">
 			<div class="artist__main-description">
@@ -33,13 +38,17 @@
 	</div>
 </template>
 
-<script>
-
+<script setup>
+import MusicPlayer from './MusicPlayer.vue'
 </script>
 
 <style scoped>
 .artist {
 	min-height: 100vh;
+}
+
+.artist__header-content {
+	margin-top: auto;
 }
 
 .artist__header {
@@ -82,6 +91,48 @@ h6 {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
+}
+
+@media (max-width: 1024px) {
+	.artist__header-title {
+		font-size: 64px;
+	}
+
+	.artist__header {
+		padding: 0 20px;
+	}
+
+	.artist__main-description {
+		padding: 0 20px;
+	}
+}
+
+@media (max-width: 768px) {
+	.artist__header-title {
+		font-size: 48px;
+	}
+
+	.artist__header {
+		padding: 0 20px;
+	}
+
+	.artist__main-description {
+		padding: 0 20px;
+	}
+}
+
+@media (max-width: 480px) {
+	.artist__header-title {
+		font-size: 32px;
+	}
+
+	.artist__header {
+		padding: 0 20px;
+	}
+
+	.artist__main-description {
+		padding: 0 20px;
 	}
 }
 </style>
